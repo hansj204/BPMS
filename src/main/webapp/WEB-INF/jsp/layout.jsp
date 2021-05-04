@@ -21,6 +21,10 @@
     <link rel="stylesheet" type="text/css" href="css/tui-grid.min.css">
     <link rel="stylesheet" type="text/css" href="css/layoutSidebar.css">
 </head>
+<style>
+    @import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
+    body, .tui-grid-container { font-family: "Nanum Gothic" }
+</style>
 <body>
 
 <script src="js/jquery.min.js"></script>

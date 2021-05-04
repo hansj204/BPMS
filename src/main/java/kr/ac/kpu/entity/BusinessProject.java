@@ -16,7 +16,7 @@ public class BusinessProject {
 
     @Id
     @Column(name = "PROJECTCODE")
-    private String code;
+    private String projectCode;
 
     @Column(name = "PROJECTNAME")
     private String projectName;
@@ -47,11 +47,11 @@ public class BusinessProject {
 
     @ManyToOne
     @JoinColumn(name = "CUSTOMERID")
-    private BusinessCustomer customerId;
+    private BusinessCustomer customer;
 
     @ManyToOne
     @JoinColumn(name = "STATECODE")
-    private ProjectState statecode;
+    private ProjectState projectState;
 
     @Column(name = "USEYN")
     private String useYN;

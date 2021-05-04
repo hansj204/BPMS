@@ -20,4 +20,16 @@ public class ActivityService {
         return acitivtyRepository.findAll();
     }
 
+    public void addActivity(Activity activity) throws Exception {
+        acitivtyRepository.save(activity);
+    }
+
+    public void modifyActivity(List<Activity> activityList) throws Exception {
+        acitivtyRepository.saveAll(activityList);
+    }
+
+    public void deleteActivity(String activityCode) throws Exception {
+        acitivtyRepository.deleteByActivityCode(activityCode);
+    }
+
 }

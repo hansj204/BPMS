@@ -14,42 +14,27 @@
 <form id="addProjectForm" action="<c:url value="/addProject"/>" method="post">
     <div class="form-row">
         <div class="col-md-4 mb-3">
-            <label for="projectName">프로젝트명</label>
+            <label for="projectName">작업명</label>
             <input class="form-control" id="projectName" name="projectName" type="text" placeholder="">
-            <label for="projectcontents">프로젝트 내용</label>
+            <label for="projectcontents">작업내역</label>
             <textarea class="form-control" id="projectContents" name="projectContents" rows="3"></textarea>
-            <label for="manager">담당자</label>
-            <input class="form-control" id="manager" name="manager" type="text" placeholder="">
+            <label for="manager">작업일</label>
+            <input class="form-control" id="startDate" name="startDate" type="text" placeholder="">
         </div>
         <div class="col-md-4 mb-3">
-            <div class="row">
-                <div class="col">
-                    <label for="manager">시작일</label>
-                    <input class="form-control" id="startDate" name="startDate" type="text" placeholder="">
-                </div>
-                <div class="col">
-                    <label for="manager">종료일</label>
-                    <input class="form-control" id="endDate" name="endDate" type="text" placeholder="">
-                </div>
-            </div>
-            <label for="manager">거래처</label>
-            <div>
-                <input class="form-control" id="customer" name="customer" type="text" placeholder="" value="2018168693">
-                <div class="input-group-append">
-                    <span class="fa fa-search"></span>
-                </div>
-            </div>
-            <label for="manager">프로젝트 상태</label>
-            <select id="projectState" name="projectState" class="form-control">
-                <c:forEach items="${stateList}" var="stateList">
-                    <option value="${stateList.stateCode}">${stateList.stateName}</option>
+            <label for="workingTime">작업시간</label>
+            <input class="form-control" id="workingTime" name="workingTime" type="text" placeholder="">
+            <label for="stepCode">작업단계</label>
+            <select id="stepCode" name="stepCode" class="form-control">
+                <c:forEach items="${stepCode}" var="stepCode">
+                    <option value="${stepCode.stepCode}">${stepCode.stepName}</option>
                 </c:forEach>
             </select>
-            <label for="manager">진행여부</label>
-            <select id="useYN" name="useYN" class="form-control">
-                <option selected>Y</option>
-                <option>N</option>
-            </select>
+            <label for="projectCode">프로젝트</label>
+            <input class="form-control" id="projectCode" name="projectCode" type="text">
+            <div class="input-group-append">
+                <span class="fa fa-search"></span>
+            </div>
         </div>
     </div>
 </form>

@@ -16,10 +16,14 @@
 <body>
 
 <button class="form-control" onclick="location='addProject'">추가</button>
+<button class="form-control" onclick="location='modifyProject'">수정</button>
+<button class="form-control" id="deleteProjectBtn">삭제</button>
 
 <div id="grid" style="display: block; "></div>
 
 <script>
+
+    reloadData
 
     console.log(${projectList});
 
@@ -32,6 +36,7 @@
         scrollX: false,
         scrollY: false,
         editable: false,
+        rowHeaders : ['checkbox'],
         data: ${projectList},
         columns: [
             {
@@ -70,14 +75,14 @@
             },
             {
                 header: '고객',
-                name: 'customerId',
+                name: 'customer',
                 formatter: function (value) {
                   return value.value.customerName;
                 }
             },
             {
                 header: '프로젝트 단계',
-                name: 'statecode',
+                name: 'projectState',
                 formatter: function (value) {
                     return value.value.stateName;
                 },
@@ -91,6 +96,16 @@
     grid.on('click', ev => {
         console.log(grid.getRow(ev.rowKey));
     });
+
+    $("#deleteProjectBtn").on('click', function (){
+        var code = grid.getCheckedRows().map(function(row) { return row.projectCode })[0];
+
+        $.ajax({
+            url: '<c:url value='/deleteProject' />',
+            type: "DELETE",
+            data: { code: code },
+        })
+    })
 
  /*   grid.on('beforeChange', ev => {
         console.log('before change:', ev);

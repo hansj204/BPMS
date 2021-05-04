@@ -8,8 +8,7 @@ import kr.ac.kpu.user.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -53,14 +52,28 @@ public class ProjectController {
 
     @PostMapping("/addProject")
     public String addProject(BusinessProject businessProject) throws Exception {
-        businessProject.setCode("PJ2018168693");
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYYMMddhhmmss");
+
+        businessProject.setProjectCode("PJ" + simpleDateFormat.format(new Date()));
         businessProject.setRegistrar("admin");
         businessProject.setRegisteredDate(new Date());
         businessProject.setModifier("admin");
         businessProject.setModifedDate(new Date());
 
         projectService.addProject(businessProject);
-        return "/manageProject";
+        return "redirect:/manageProject";
     }
 
+    @PutMapping("/modifyProject")
+    public String modifyProject(List<BusinessProject> businessProjectList) throws Exception {
+        projectService.modifyProject(businessProjectList);
+        return "redirect:/manageProject";
+    }
+
+    @DeleteMapping("/deleteProject")
+    public String deleteProject(@ModelAttribute("code") String projectCode) throws Exception {
+        projectService.deleteProject(projectCode);
+        return "redirect:/manageProject";
+    }
 }

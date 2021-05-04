@@ -21,4 +21,12 @@ public class ProjectService {
     public void addProject(BusinessProject businessProject) throws Exception {
        projectRepository.save(businessProject);
     }
+
+    public void modifyProject(List<BusinessProject> businessProjectList) throws Exception {
+        projectRepository.saveAll(businessProjectList);
+    }
+
+    public void deleteProject(String projectCode) throws Exception {
+        projectRepository.deleteByProjectCode(projectCode);
+    }
 }

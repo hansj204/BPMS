@@ -9,7 +9,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <script type="text/javascript" src="<c:url value='/js/tui-grid.min.js' />"></script>
 
-<button class="form-control" onclick="location='addProject'">추가</button>
+<button class="form-control" onclick="location='addActivity'">추가</button>
 
 <div id="activityGrid"></div>
 
@@ -49,7 +49,7 @@
                 }
             },
             {
-                header: '프로젝트명',
+                header: '프로젝트',
                 name: 'projectCode'
             }
         ]
