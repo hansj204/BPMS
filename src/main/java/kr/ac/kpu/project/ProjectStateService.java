@@ -2,7 +2,9 @@ package kr.ac.kpu.project;
 
 import kr.ac.kpu.entity.BusinessCustomer;
 import kr.ac.kpu.entity.ProjectState;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -16,6 +18,6 @@ public class ProjectStateService {
     private ProjetStateRepository stateRepository;
 
     public List<ProjectState> getStateList() throws Exception {
-        return stateRepository.findAll();
+        return stateRepository.findAll(Sort.by(Sort.Direction.ASC, "stateName"));
     }
 }

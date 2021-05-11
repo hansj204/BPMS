@@ -34,9 +34,9 @@ public class Activity {
 
     @ManyToOne
     @JoinColumn(name = "PROJECTCODE")
-    private BusinessProject projectCode;
+    private BusinessProject project;
 
     @OneToOne
     @JoinColumn(name = "STEPCODE")
-    private JobStep stepCode;
+    private JobStep jobStep;
 }

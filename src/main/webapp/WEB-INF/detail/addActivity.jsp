@@ -7,33 +7,42 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<script type="text/javascript" src="<c:url value='/js/tui-grid.min.js' />"></script>
+<script type="text/javascript" src="<c:url value='/static/js/tui-grid.min.js' />"></script>
+<jsp:include page="../project_modal.jsp">
+    <jsp:param name="projectList" value="${projectList}"/>
+</jsp:include>
 
 <button id="addRow" class="btn btn-primary">추가</button>
 
-<form id="addProjectForm" action="<c:url value="/addProject"/>" method="post">
+<form id="addActivityForm" action="<c:url value="/addProject"/>" method="post">
     <div class="form-row">
         <div class="col-md-4 mb-3">
-            <label for="projectName">작업명</label>
-            <input class="form-control" id="projectName" name="projectName" type="text" placeholder="">
-            <label for="projectcontents">작업내역</label>
-            <textarea class="form-control" id="projectContents" name="projectContents" rows="3"></textarea>
-            <label for="manager">작업일</label>
-            <input class="form-control" id="startDate" name="startDate" type="text" placeholder="">
+            <label for="activityName">작업명</label>
+            <input class="form-control" id="activityName" name="activityName" type="text" placeholder="">
+            <label for="activityContents">작업내역</label>
+            <textarea class="form-control" id="activityContents" name="activityContents" rows="5"></textarea>
+
         </div>
         <div class="col-md-4 mb-3">
+            <label for="workDate">작업일</label>
+            <input class="form-control" id="workDate" name="workDate" type="text" placeholder="">
             <label for="workingTime">작업시간</label>
             <input class="form-control" id="workingTime" name="workingTime" type="text" placeholder="">
-            <label for="stepCode">작업단계</label>
-            <select id="stepCode" name="stepCode" class="form-control">
-                <c:forEach items="${stepCode}" var="stepCode">
-                    <option value="${stepCode.stepCode}">${stepCode.stepName}</option>
+        </div>
+        <div class="col-md-4 mb-3">
+            <label for="jobStep">작업단계</label>
+            <select id="jobStep" name="jobStep" class="form-control">
+                <c:forEach items="${jobStepList}" var="jobStepList">
+                    <option value="${jobStepList.stepCode}">${jobStepList.stepName}</option>
                 </c:forEach>
             </select>
             <label for="projectCode">프로젝트</label>
-            <input class="form-control" id="projectCode" name="projectCode" type="text">
+            <input type="text" class="form-control" id="projectInput" disabled>
+            <input type="hidden" id="projectCode" name="projectCode">
             <div class="input-group-append">
-                <span class="fa fa-search"></span>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#projectModal">
+                    <i class="fa fa-search"></i>
+                </button>
             </div>
         </div>
     </div>
@@ -60,11 +69,14 @@
 </div>
 
 <script>
+
+    /*var data = ${jobStepList};
+
+    console.log(data.toString());*/
+
     $("input").attr('autocomplete', 'off');
     $("#startDate").datepicker();
     $("#endDate").datepicker();
-
-    var customerList = ${customerList};
 
     $('#addRow').on('click', function () {
         $('#addProjectForm').submit();

@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -14,11 +16,31 @@ public class ProjectService {
     @Autowired
     private ProjectRepository projectRepository;
 
+    public BusinessProject getProject(String projectCode) throws Exception {
+        return projectRepository.findByProjectCode(projectCode);
+    }
+
     public List<BusinessProject> getProjectList() throws Exception {
         return projectRepository.findAll();
     }
 
-    public void addProject(BusinessProject businessProject) throws Exception {
+    public void editProject(BusinessProject businessProject) throws Exception {
+
+        if(0 == businessProject.getProjectCode().length()) {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYYMMddhhmmss");
+
+            businessProject.setProjectCode("PJ" + simpleDateFormat.format(new Date()));
+            businessProject.setRegistrar("admin");
+            businessProject.setRegisteredDate(new Date());
+        }
+
+        businessProject.setModifier("admin");
+        businessProject.setModifedDate(new Date());
+
+        System.out.println("fffffffff");
+        System.out.println(businessProject.getProjectCode());
+        System.out.println(businessProject);
+
        projectRepository.save(businessProject);
     }
 

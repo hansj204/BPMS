@@ -17,9 +17,9 @@ import java.util.Date;
 public class Authority {
 
     @Id
-    @Column(name = "AUTHNAME")
+    @Column(name = "AUTHCODE")
     private String authCode;
 
-    @Column(name = "AUTHCODE")
+    @Column(name = "AUTHNAME")
     private String authName;
 }

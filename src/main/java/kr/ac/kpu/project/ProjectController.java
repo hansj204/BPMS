@@ -11,8 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
@@ -34,45 +32,31 @@ public class ProjectController {
         List<BusinessProject> projectList = projectService.getProjectList();
 
         model.addAttribute("projectList", new Gson().toJson(projectList));
-        model.addAttribute("pageLink", "manageProject.jsp");
-
-        return "layout";
+        model.addAttribute("pageLink", "/manage/manageProject.jsp");
+        return "/layout/grid_layout";
     }
 
-    @GetMapping("/addProject")
-    public String addProject(Model model) throws Exception {
+    @GetMapping("/detailProject")
+    public String viewProject(@ModelAttribute("projectCode") String projectCode, Model model) throws Exception {
         List<BusinessCustomer> customerList = customerService.getCustomerList();
         List<ProjectState> stateList = stateService.getStateList();
 
         model.addAttribute("customerList", new Gson().toJson(customerList));
         model.addAttribute("stateList", stateList);
-        model.addAttribute("pageLink", "addProject.jsp");
-        return "layout";
+        model.addAttribute("project", (projectCode.length() > 0)? new Gson().toJson(projectService.getProject(projectCode)) : "[]");
+        model.addAttribute("pageLink", "/detail/detailProject.jsp");
+        model.addAttribute("haveObj", (projectCode.length() > 0)? true : false);
+        return "/layout/grid_layout";
     }
 
-    @PostMapping("/addProject")
-    public String addProject(BusinessProject businessProject) throws Exception {
-
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYYMMddhhmmss");
-
-        businessProject.setProjectCode("PJ" + simpleDateFormat.format(new Date()));
-        businessProject.setRegistrar("admin");
-        businessProject.setRegisteredDate(new Date());
-        businessProject.setModifier("admin");
-        businessProject.setModifedDate(new Date());
-
-        projectService.addProject(businessProject);
-        return "redirect:/manageProject";
-    }
-
-    @PutMapping("/modifyProject")
-    public String modifyProject(List<BusinessProject> businessProjectList) throws Exception {
-        projectService.modifyProject(businessProjectList);
+    @PostMapping("/detailProject")
+    public String editProject(BusinessProject businessProject) throws Exception {
+        projectService.editProject(businessProject);
         return "redirect:/manageProject";
     }
 
     @DeleteMapping("/deleteProject")
-    public String deleteProject(@ModelAttribute("code") String projectCode) throws Exception {
+    public String deleteProject(@ModelAttribute("projectCode") String projectCode) throws Exception {
         projectService.deleteProject(projectCode);
         return "redirect:/manageProject";
     }

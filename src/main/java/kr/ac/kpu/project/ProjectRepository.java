@@ -9,5 +9,9 @@ import java.util.List;
 
 @Repository
 public interface ProjectRepository extends JpaRepository<BusinessProject, String> {
+
+    public BusinessProject findByProjectCode(String projectCode);
+
     public void deleteByProjectCode(String projectCode);
+
 }

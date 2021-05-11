@@ -33,10 +33,10 @@ public class BusinessProject {
     @Column(name = "ENDDATE")
     private String endDate;
 
-    @Column(name = "REGISTRAR")
+    @Column(name = "REGISTRAR", updatable = false)
     private String registrar;
 
-    @Column(name = "RESISTER_TIMESTAMP")
+    @Column(name = "RESISTER_TIMESTAMP", updatable = false)
     private Date registeredDate;
 
     @Column(name = "MODIFIER")
@@ -52,6 +52,12 @@ public class BusinessProject {
     @ManyToOne
     @JoinColumn(name = "STATECODE")
     private ProjectState projectState;
+
+    @Column(name = "TOTALBUDGET")
+    private Integer totalBudget;
+
+    @Column(name = "BUDGETUNIT")
+    private String budgetUnit;
 
     @Column(name = "USEYN")
     private String useYN;
