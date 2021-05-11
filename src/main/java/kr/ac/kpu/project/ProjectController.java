@@ -56,8 +56,7 @@ public class ProjectController {
     }
 
     @DeleteMapping("/deleteProject")
-    public String deleteProject(@ModelAttribute("projectCode") String projectCode) throws Exception {
+    public void deleteProject(@ModelAttribute("projectCode") String projectCode) throws Exception {
         projectService.deleteProject(projectCode);
-        return "redirect:/manageProject";
     }
 }
