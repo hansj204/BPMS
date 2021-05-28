@@ -3,13 +3,12 @@ package kr.ac.kpu.activity;
 import com.google.gson.Gson;
 import kr.ac.kpu.entity.*;
 import kr.ac.kpu.project.ProjectService;
+import kr.ac.kpu.user.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -24,45 +23,46 @@ public class ActivityController {
     @Autowired
     JobStepService jobStepService;
 
+    @Autowired
+    EmployeeService employeeService;
+
     @GetMapping("/manageActivity")
     public String getActivityList(Model model) throws Exception {
-        List<Activity> activityList = activityService.getActivityList();
-
-        model.addAttribute("activityList", new Gson().toJson(activityList));
+        model.addAttribute("projectList", new Gson().toJson(projectService.getProjectList()));
+        model.addAttribute("userList", new Gson().toJson(employeeService.getUserList()));
+        model.addAttribute("jobStepList", jobStepService.getJobStepList());
+        model.addAttribute("activityList", new Gson().toJson(activityService.getActivityList()));
         model.addAttribute("pageLink", "/manage/manageActivity.jsp");
+
         return "/layout/grid_layout";
     }
 
-    @GetMapping("/addActivity")
-    public String addProject(Model model) throws Exception {
-        List<BusinessProject> projectList = projectService.getProjectList();
-        List<JobStep> jobStepList = jobStepService.getJobStepList();
+    @GetMapping("/searchActivity")
+    @ResponseBody
+    public List<Activity> searchProjectList(@ModelAttribute ActivitySearchVM searchCondition, Model model) throws Exception {
+        return activityService.searchActivity(searchCondition);
+    }
 
-        model.addAttribute("projectList", projectList);
-        model.addAttribute("jobStepList", jobStepList);
-        model.addAttribute("pageLink", "/detail/addActivity.jsp");
+    @GetMapping("/detailActivity")
+    public String addProject(@RequestParam(required = false) String activityCode, Model model) throws Exception {
+        model.addAttribute("projectList", new Gson().toJson(projectService.getProjectList()));
+        model.addAttribute("jobStepList", jobStepService.getJobStepList());
+        model.addAttribute("pageLink", "/detail/detailActivity.jsp");
+        model.addAttribute("activity", (null != activityCode)? new Gson().toJson(activityService.getActivity(activityCode)) : "[]");
+        model.addAttribute("haveObj", (null != activityCode)? true : false);
+
         return "/layout/grid_layout";
     }
 
-
-    @PostMapping("/addActivity")
+    @PostMapping("/detailActivity")
     public String addProject(Activity activity) throws Exception {
-
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYYMMddhhmmss");
-        activity.setActivityCode("ACT" + simpleDateFormat.format(new Date()));
-        activityService.addActivity(activity);
-        return "/manage/manageActivity";
-    }
-
-    @PutMapping("/modifyActivity")
-    public String modifyProject(List<Activity> activityList) throws Exception {
-        activityService.modifyActivity(activityList);
-        return "/manage/manageActivity";
+        activityService.editActivity(activity);
+        return "redirect:/manageActivity";
     }
 
     @DeleteMapping("/deleteActivity")
-    public String deleteProject(@ModelAttribute("code") String activityCode) throws Exception {
+    @ResponseBody
+    public void deleteProject(@ModelAttribute("activityCode") String activityCode) throws Exception {
         activityService.deleteActivity(activityCode);
-        return "/manage/manageActivity";
     }
 }

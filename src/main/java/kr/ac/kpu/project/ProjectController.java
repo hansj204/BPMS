@@ -1,17 +1,16 @@
 package kr.ac.kpu.project;
 
 import com.google.gson.Gson;
-import kr.ac.kpu.entity.BusinessCustomer;
+import kr.ac.kpu.activity.ActivityService;
 import kr.ac.kpu.entity.BusinessProject;
-import kr.ac.kpu.entity.ProjectState;
-import kr.ac.kpu.user.CustomerService;
+import kr.ac.kpu.customer.CustomerService;
+import kr.ac.kpu.entity.ProjectSearchVM;
+import kr.ac.kpu.user.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -21,10 +20,16 @@ public class ProjectController {
     ProjectService projectService;
 
     @Autowired
+    ActivityService activityService;
+
+    @Autowired
     CustomerService customerService;
 
     @Autowired
     ProjectStateService stateService;
+
+    @Autowired
+    EmployeeService employeeService;
 
     @GetMapping("/manageProject")
     public String getProjectList(Model model) throws Exception {
@@ -32,20 +37,46 @@ public class ProjectController {
         List<BusinessProject> projectList = projectService.getProjectList();
 
         model.addAttribute("projectList", new Gson().toJson(projectList));
+        model.addAttribute("customerList", new Gson().toJson(customerService.getCustomerList()));
+        model.addAttribute("stateList", stateService.getStateList());
         model.addAttribute("pageLink", "/manage/manageProject.jsp");
         return "/layout/grid_layout";
     }
 
-    @GetMapping("/detailProject")
-    public String viewProject(@ModelAttribute("projectCode") String projectCode, Model model) throws Exception {
-        List<BusinessCustomer> customerList = customerService.getCustomerList();
-        List<ProjectState> stateList = stateService.getStateList();
+    @GetMapping("/searchProject")
+    @ResponseBody
+    public List<BusinessProject> searchProjectList(@ModelAttribute ProjectSearchVM searchCondition, Model model) throws Exception {
+        return projectService.searchProjectList(searchCondition);
+    }
 
-        model.addAttribute("customerList", new Gson().toJson(customerList));
-        model.addAttribute("stateList", stateList);
-        model.addAttribute("project", (projectCode.length() > 0)? new Gson().toJson(projectService.getProject(projectCode)) : "[]");
+    @GetMapping("/detailProject")
+    public String viewProject(@RequestParam(required = false) String projectCode, Model model) throws Exception {
+        model.addAttribute("customerList", new Gson().toJson(customerService.getCustomerList()));
+        model.addAttribute("stateList", stateService.getStateList());
+        model.addAttribute("project", (null != projectCode)? new Gson().toJson(projectService.getProject(projectCode)) : "[]");
         model.addAttribute("pageLink", "/detail/detailProject.jsp");
-        model.addAttribute("haveObj", (projectCode.length() > 0)? true : false);
+        model.addAttribute("haveObj", (null != projectCode)? true : false);
+        return "/layout/grid_layout";
+    }
+
+    @GetMapping("/manageBizProject")
+    public String getBizProjectList(Model model) throws Exception {
+
+        List<BusinessProject> projectList = projectService.getProjectList();
+
+        model.addAttribute("projectList", new Gson().toJson(projectList));
+        model.addAttribute("customerList", new Gson().toJson(customerService.getCustomerList()));
+        model.addAttribute("stateList", stateService.getStateList());
+        model.addAttribute("pageLink", "/manage/manageProjectEmp.jsp");
+        return "/layout/grid_layout";
+    }
+
+    @GetMapping("/detailBizProject")
+    public String viewBizProject(@RequestParam(required = false) String projectCode, Model model) throws Exception {
+        model.addAttribute("userList", new Gson().toJson(employeeService.getUserList()));
+        model.addAttribute("project", (null != projectCode)? new Gson().toJson(projectService.getProject(projectCode)) : "[]");
+        model.addAttribute("pageLink", "/detail/detailProjectEmp.jsp");
+        model.addAttribute("haveObj", (null != projectCode)? true : false);
         return "/layout/grid_layout";
     }
 
@@ -56,7 +87,9 @@ public class ProjectController {
     }
 
     @DeleteMapping("/deleteProject")
-    public void deleteProject(@ModelAttribute("projectCode") String projectCode) throws Exception {
+    @ResponseBody
+    public void deleteProject(@RequestParam("projectCode") String projectCode, Model model) throws Exception {
+        activityService.deleteAllActivity(projectService.getProject(projectCode));
         projectService.deleteProject(projectCode);
     }
 }

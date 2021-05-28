@@ -14,8 +14,10 @@
     <jsp:include page="layout_head.jsp"></jsp:include>
 </head>
 <body>
+
 <jsp:include page="layout_body.jsp">
     <jsp:param name="pageLink" value="${pageLink}"/>
 </jsp:include>
+
 </body>
 </html>

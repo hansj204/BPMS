@@ -28,44 +28,53 @@
 </div>
 
 <script>
-    var customerGrid = new tui.Grid({
-        el: document.getElementById('customerGrid'),
-        scrollX: false,
-        scrollY: false,
-        editable: false,
-        rowHeaders : ['checkbox'],
-        data: ${customerList},
-        columnOptions: {
-            resizable: true
-        },
-        columns: [
-            {
-                header: '사업자번호',
-                name: 'customerId'
+
+    var customerGrid;
+
+    $("#customerModal").on('shown.bs.modal', function(e) {
+        customerGrid = new tui.Grid({
+            el: document.getElementById('customerGrid'),
+            scrollX: false,
+            scrollY: false,
+            editable: false,
+            rowHeaders : ['checkbox'],
+            columnOptions: {
+                resizable: true
             },
-            {
-                header: '고객명',
-                name: 'customerName'
-            },
-            {
-                header: '주소',
-                name: 'address'
-            },
-            {
-                header: '담당자',
-                name: 'manager'
-            },
-            {
-                header: '담당자 전화번호',
-                name: 'managerNumber'
-            }
-        ]
+            columns: [
+                {
+                    header: '사업자번호',
+                    name: 'customerId'
+                },
+                {
+                    header: '고객명',
+                    name: 'customerName'
+                },
+                {
+                    header: '주소',
+                    name: 'address'
+                },
+                {
+                    header: '담당자',
+                    name: 'manager'
+                },
+                {
+                    header: '담당자 전화번호',
+                    name: 'managerNumber'
+                }
+            ]
+        });
+
+        customerGrid.resetData(${customerList});
+        customerGrid.refreshLayout();
     });
 
     $("#customerSearch").on('click', ev => {
+
         var row = customerGrid.getCheckedRows()[0];
         $("#customerInput").val(row.customerName);
         $("#customer").val(row.customerId);
+        customerGrid.destroy();
         $("#customerModal").modal("hide");
     });
 </script>

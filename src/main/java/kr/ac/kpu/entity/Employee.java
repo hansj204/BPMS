@@ -6,7 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Builder
@@ -32,8 +34,9 @@ public class Employee {
     @Column(name = "EMAIL")
     private String email;
 
-    @Column(name = "POSITIONCODE")
-    private String positionCode;
+    @OneToOne
+    @JoinColumn(name = "POSITIONCODE")
+    private CompanyPosition position;
 
     @OneToOne
     @JoinColumn(name = "AUTHCODE")

@@ -14,12 +14,14 @@ import javax.persistence.Table;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "EMPLOYEE_AUTH")
-public class EmployeeAuth {
+@Entity
+@Table(name = "COMPANY_POSITION")
+public class CompanyPosition {
 
-    @Column(name = "USERID")
-    private String userId;
+    @Id
+    @Column(name = "POSITIONCODE")
+    private String positionCode;
 
-    @Column(name = "AUTHCODE")
-    private String authName;
+    @Column(name = "POSITIONNAME")
+    private String positionName;
 }

@@ -1,8 +1,12 @@
 package kr.ac.kpu.project;
 
+import kr.ac.kpu.domain.ProjectSpecification;
 import kr.ac.kpu.entity.BusinessProject;
+import kr.ac.kpu.entity.ProjectSearchVM;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
@@ -16,6 +20,10 @@ public class ProjectService {
     @Autowired
     private ProjectRepository projectRepository;
 
+    public List<BusinessProject> searchProjectList(ProjectSearchVM searchCondition) throws Exception {
+        return projectRepository.findAll(ProjectSpecification.searchProject(searchCondition));
+    }
+
     public BusinessProject getProject(String projectCode) throws Exception {
         return projectRepository.findByProjectCode(projectCode);
     }
@@ -26,8 +34,8 @@ public class ProjectService {
 
     public void editProject(BusinessProject businessProject) throws Exception {
 
-        if(0 == businessProject.getProjectCode().length()) {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYYMMddhhmmss");
+        if(null == businessProject.getProjectCode()) {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYMMmmss");
 
             businessProject.setProjectCode("PJ" + simpleDateFormat.format(new Date()));
             businessProject.setRegistrar("admin");
@@ -37,18 +45,14 @@ public class ProjectService {
         businessProject.setModifier("admin");
         businessProject.setModifedDate(new Date());
 
-        System.out.println("fffffffff");
-        System.out.println(businessProject.getProjectCode());
-        System.out.println(businessProject);
+        projectRepository.save(businessProject);
+   }
 
-       projectRepository.save(businessProject);
-    }
-
-    public void modifyProject(List<BusinessProject> businessProjectList) throws Exception {
+   public void modifyProject(List<BusinessProject> businessProjectList) throws Exception {
         projectRepository.saveAll(businessProjectList);
-    }
+   }
 
-    public void deleteProject(String projectCode) throws Exception {
+   public void deleteProject(String projectCode) throws Exception {
         projectRepository.deleteByProjectCode(projectCode);
-    }
+   }
 }

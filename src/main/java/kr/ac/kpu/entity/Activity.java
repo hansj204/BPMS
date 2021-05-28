@@ -4,8 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -39,4 +41,10 @@ public class Activity {
     @OneToOne
     @JoinColumn(name = "STEPCODE")
     private JobStep jobStep;
+
+    @Column(name = "REGISTRAR", updatable = false)
+    private String registrar;
+
+    @Column(name = "RESISTER_TIMESTAMP", updatable = false)
+    private Date registeredDate;
 }

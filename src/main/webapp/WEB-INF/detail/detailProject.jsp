@@ -9,11 +9,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="haveObj" value="${haveObj}"/>
 
-<c:if test="${haveObj eq false}">
-    <jsp:include page="../customer_modal.jsp">
-        <jsp:param name="customerList" value="${customerList}"/>
-    </jsp:include>
-</c:if>
+<jsp:include page="../customer_modal.jsp">
+    <jsp:param name="customerList" value="${customerList}"/>
+</jsp:include>
 
 <h4 style="margin-top: 20px;">프로젝트</h4>
 
@@ -32,7 +30,7 @@
                 <input type="hidden" tex>
             <td><label>프로젝트명</label></td>
             <td><input class="form-control" id="projectName" name="projectName" type="text"></td>
-            <td><label for="startDate">프로젝트 기간</label></td>
+            <td><label>프로젝트 기간</label></td>
             <td>
                 <div class="row">
                     <div class="col">
@@ -74,8 +72,8 @@
                 <div class="input-group mb-3">
                     <input type="text" class="form-control" id="customerInput" name="customerInput" disabled>
                     <input type="hidden" id="customer" name="customer">
-                    <div id="searchBtn" class="input-group-append">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#customerModal">
+                    <div class="input-group-append searchBtn">
+                        <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#customerModal">
                             <i class="fa fa-search"></i>
                         </button>
                     </div>
@@ -90,17 +88,19 @@
             </td>
             <td><label>등록자</label></td>
             <td>
-                <input class="form-control" id="registrar" name="registrar" type="text" disabled>
-                <input type="hidden" class="form-control" id="registeredDate" name="registeredDate">
+                <input class="form-control" id="registrar" name="registrar" type="text" readonly>
             </td>
         </tr>
         <tr>
             <td><label for="projectcontents">프로젝트 내용</label></td>
             <td colspan="5">
-                <textarea class="form-control" id="projectContents" name="projectContents" rows="15"></textarea>
+                <textarea class="form-control" id="projectContents" name="projectContents" rows="17"></textarea>
             </td>
         </tr>
     </table>
+
+    <div id="userAuthGrid"></div>
+
 </form>
 <div style="float: right">
     <c:if test="${haveObj ne true}">
@@ -108,15 +108,17 @@
     </c:if>
     <c:if test="${haveObj eq true}">
         <a href="javascript:void(0);" id="modifyBtn" class="btn btn-dark">수정</a>
-        <a href="javascript:void(0);" id="deleteBtn" class="btn btn-dark">삭제</a>
+        <a href="javascript:void(0);" id="deleteBtn"  class="btn btn-dark">삭제</a>
         <a href="javascript:void(0);" id="cancelBtn" class="btn btn-dark">취소</a>
         <a href="javascript:void(0);" id="saveBtn" class="btn btn-dark">저장</a>
     </c:if>
 </div>
 <script>
-    $("input").attr('autocomplete', 'off');
-    $("#startDate").datepicker();
-    $("#endDate").datepicker();
+
+    console.log(${haveObj} + '1');
+
+    $("#startDate").datepicker({dateFormat: 'yy-mm-dd'});
+    $("#endDate").datepicker({dateFormat: 'yy-mm-dd'});
 
     var project = ${project};
 
@@ -143,7 +145,7 @@
             $("#deleteBtn").show();;
             $("#saveBtn").hide();
             $("#cancelBtn").hide();
-            $("#searchBtn").hide();
+            $(".searchBtn").hide();
 
             $("input").attr("disabled", true);
             $("textarea").attr("disabled", true);
@@ -154,9 +156,9 @@
             $("#deleteBtn").hide();
             $("#saveBtn").show();
             $("#cancelBtn").show();
-            $("#searchBtn").show();
+            $(".searchBtn").show();
 
-            $("input").attr("disabled", false);
+            $("input").not('#customerInput, #registrar').attr("disabled", false)
             $("textarea").attr("disabled", false);
             $("select").attr("disabled", false);
         }
@@ -175,15 +177,16 @@
     });
 
     $("#deleteBtn").on('click', function (){
+
         $.ajax({
-            url: '<c:url value='/deleteProject' />',
-            type: "DELETE",
-            data: { projectCode: project.projectCode },
-            success : function (data) {
-                alert("삭제되었습니다.");
+            url: "<c:url value='/deleteProject' />",
+            type : "DELETE",
+            data: { projectCode : project.projectCode },
+            success: function (data) {
                 location.href = "<c:url value='/manageProject' />";
             }
-        })
+        });
+
     });
 
 </script>

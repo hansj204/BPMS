@@ -11,63 +11,72 @@
     <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="projectModalLabel">고객</h5>
+                <h5 class="modal-title" id="projectModalLabel">프로젝트</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <div id="projectGrid"></div>
+            <div class="modal-body" style="min-width: 400px">
+                <div id="projectGrid"> </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-                <button type="button" class="btn btn-primary" id="customerSearch">확인</button>
+                <button type="button" class="btn btn-primary" id="projectSearch">확인</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    var projectGrid = new tui.Grid({
-        el: document.getElementById('projectGrid'),
-        scrollX: false,
-        scrollY: false,
-        editable: false,
-        rowHeaders : ['checkbox'],
-        data: ${projectList},
-        columnOptions: {
-            resizable: true
-        },
-        columns: [
-            {
-                header: '프로젝트명',
-                name: 'projectName',
+
+    var projectGrid;
+
+    $("#projectModal").on('shown.bs.modal', function(e) {
+
+        projectGrid = new tui.Grid({
+            el: document.getElementById('projectGrid'),
+            scrollX: false,
+            scrollY: false,
+            editable: false,
+            rowHeaders : ['checkbox'],
+            columnOptions: {
+                resizable: true
             },
-            {
-                header: '담당자',
-                name: 'manager',
-            },
-            {
-                header: '고객',
-                name: 'customer',
-                formatter: function (value) {
-                    return value.value.customerName;
+            columns: [
+                {
+                    header: '프로젝트명',
+                    name: 'projectName',
+                },
+                {
+                    header: '담당자',
+                    name: 'manager',
+                },
+                {
+                    header: '고객',
+                    name: 'customer',
+                    formatter: function (value) {
+                        return value.value.customerName;
+                    }
+                },
+                {
+                    header: '프로젝트 단계',
+                    name: 'projectState',
+                    formatter: function (value) {
+                        return value.value.stateName;
+                    }
                 }
-            },
-            {
-                header: '프로젝트 단계',
-                name: 'projectState',
-                formatter: function (value) {
-                    return value.value.stateName;
-                }
-            }
-        ]
+            ]
+        });
+
+        projectGrid.resetData(${projectList});
+        projectGrid.refreshLayout();
     });
 
     $("#projectSearch").on('click', ev => {
         var row = projectGrid.getCheckedRows()[0];
-        $("#customerInput").val(row.projectName);
-        $("#projectCode").val(row.projectCode);
+        $("#projectInput").val(row.projectName);
+        $("#project").val(row.projectCode);
+        projectGrid.destroy();
         $("#projectModal").modal("hide");
     });
 </script>

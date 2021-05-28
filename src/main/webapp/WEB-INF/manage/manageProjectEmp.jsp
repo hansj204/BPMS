@@ -73,7 +73,7 @@
     </form>
 
     <div style="float: right; margin-bottom: 10px">
-        <a href="detailProject" id="addBtn" class="btn btn-dark">추가</a>
+        <a href="detailBizProject" id="addBtn" class="btn btn-dark">추가</a>
     </div>
 
     <div id="projectGrid"/>
@@ -138,7 +138,7 @@
 
     grid.on('click', ev => {
         var project = grid.getRow(ev.rowKey);
-        location.href = "<c:url value='/detailProject' />?projectCode=" + project.projectCode;
+        location.href = "<c:url value='/detailBizProject' />?projectCode=" + project.projectCode;
     });
 
     $("#searchAreaBtn").on('click', function() {
