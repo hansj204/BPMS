@@ -6,9 +6,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface CustomerRepository extends JpaRepository<BusinessCustomer, String>, JpaSpecificationExecutor<BusinessCustomer> {
     public BusinessCustomer findByCustomerId(String customerId);
 
     public void deleteByCustomerId(String customerId);
+
+    public List<BusinessCustomer> findAllByUseYN(String useYN);
 }

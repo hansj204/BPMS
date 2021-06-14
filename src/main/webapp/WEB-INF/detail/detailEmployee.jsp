@@ -14,12 +14,11 @@
     <table class="table table-bordered table-form" style="margin-top: 20px; margin-bottom: 20px">
         <colgroup>
             <col width="10%" style="background: #f5f5f5; border-bottom: 1px solid #dddddd; border-top: 1px solid #dddddd">
-            <col width="20%">
+            <col width="25%">
             <col width="10%" style="background: #f5f5f5; border-bottom: 1px solid #dddddd; border-top: 1px solid #dddddd">
             <col width="20%">
             <col width="10%" style="background: #f5f5f5; border-bottom: 1px solid #dddddd; border-top: 1px solid #dddddd">
-            <col width="20%">
-            <col width="5%">
+            <col width="25%">
         </colgroup>
         <tr>
             <td><label>사번</label></td>

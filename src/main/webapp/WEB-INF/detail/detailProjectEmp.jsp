@@ -17,7 +17,7 @@
 
 <h4 style="margin-top: 20px;">프로젝트</h4>
 
-<%--<form id="addProjectForm" action="<c:url value="/detailProject"/>" method="post">--%>
+
 <table class="table table-bordered table-form" style="margin: 0 20px 20px 0">
     <colgroup>
         <col width="10%" style="background: #f5f5f5; border-bottom: 1px solid #dddddd; border-top: 1px solid #dddddd">
@@ -29,7 +29,6 @@
     </colgroup>
     <tr>
         <input type="hidden" class="form-control" id="projectCode" name="projectCode" >
-            <input type="hidden" tex>
         <td><label>프로젝트명</label></td>
         <td><input class="form-control" id="projectName" name="projectName" type="text"></td>
         <td><label>프로젝트 기간</label></td>
@@ -61,18 +60,13 @@
             <div class="input-group mb-3">
                 <input type="text" class="form-control" id="customerInput" name="customerInput" disabled>
                 <input type="hidden" id="customer" name="customer">
-                <div class="input-group-append searchBtn">
-                    <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#customerModal">
-                        <i class="fa fa-search"></i>
-                    </button>
-                </div>
             </div>
         </td>
         <td colspan="2">
     </tr>
 </table>
 
-<h6 style="margin-top: 20px;">사용자 권한</h6>
+<h6 style="margin-top: 20px;">담당자 목록</h6>
 <table style="width: 100%;">
     <colgroup>
         <col width="45%">
@@ -85,10 +79,10 @@
             <div style="text-align: center; vertical-align: middle;">
                 <div style="display: inline-block;">
                     <div class="row">
-                        <button id="addAuth" class="btn btn-light"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+                        <a href="javascript:void(0);" id="addAuth" class="btn btn-light"><i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                     </div>
                     <div class="row">
-                        <button id="deleteAuth" class="btn btn-light"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+                        <a href="javascript:void(0);" id="deleteAuth" class="btn btn-light"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
                     </div>
                 </div>
             </div>
@@ -99,7 +93,8 @@
 </table>
 
 <div style="float: right">
-    <a href="manageProject" id="cacleBtn" class="btn btn-dark">닫기</a>
+        <a href="javascript:void(0);" id="cancelBtn" class="btn btn-dark">닫기</a>
+        <a href="javascript:void(0);" id="saveBtn" class="btn btn-dark">저장</a>
 </div>
 <script>
 
@@ -108,11 +103,23 @@
         scrollX: false,
         scrollY: false,
         editable: false,
+        disabled : false,
         rowHeaders : ['checkbox'],
         columnOptions: {
             resizable: true
         },
         columns: [
+            {
+                header: '사용자 ID',
+                name: 'userId'
+            },
+            {
+                header: '부서',
+                name: 'department',
+                formatter: function (value){
+                    return value.value.departmentName;
+                }
+            },
             {
                 header: '사용자 이름',
                 name: 'userName',
@@ -130,7 +137,9 @@
         ]
     });
 
-    empAllGrid.resetData(${userList});
+    var allUserList = ${allUserList};
+
+    empAllGrid.resetData(${allUserList});
     empAllGrid.refreshLayout();
 
     var managerGrid = new tui.Grid({
@@ -138,11 +147,16 @@
         scrollX: false,
         scrollY: false,
         editable: false,
+        disabled : false,
         rowHeaders : ['checkbox'],
         columnOptions: {
             resizable: true
         },
         columns: [
+            {
+                header: '사용자 ID',
+                name: 'userId'
+            },
             {
                 header: '사용자 이름',
                 name: 'userName',
@@ -159,6 +173,9 @@
             }
         ]
     });
+
+    managerGrid.resetData(${userList});
+    managerGrid.refreshLayout();
 
     $("#addAuth").on('click', function () {
         managerGrid.resetData(empAllGrid.getCheckedRows());
@@ -182,12 +199,14 @@
 
     if(Object.keys(project).length > 0) {
 
-        setViewForm(true);
+        setViewForm();
 
         var keys = Object.keys(project);
 
         keys.forEach(function(key) {
             var name = "[name=" + key +"]";
+
+            console.log(project[key])
 
             switch (key) {
                 case 'projectState' : $(name).val(project[key].stateCode); break;
@@ -198,54 +217,33 @@
     }
 
     function setViewForm(mode) {
-        if(mode) {
-            $("#modifyBtn").show();
-            $("#deleteBtn").show();;
-            $("#saveBtn").hide();
-            $("#cancelBtn").hide();
-            $(".searchBtn").hide();
-
-            $("input").attr("disabled", true);
-            $("textarea").attr("disabled", true);
-            $("select").attr("disabled", true);
-
-        } else {
-            $("#modifyBtn").hide();
-            $("#deleteBtn").hide();
-            $("#saveBtn").show();
-            $("#cancelBtn").show();
-            $(".searchBtn").show();
-
-            $("input").not('#customerInput, #registrar').attr("disabled", false)
-            $("textarea").attr("disabled", false);
-            $("select").attr("disabled", false);
-        }
+        $("input").not('#customerInput, #registrar').attr("disabled", true);
+        $("#registrar").attr("readonly", true);
+        $("textarea").attr("disabled", true);
+        $("select").attr("disabled", true);
+        empAllGrid.enable();
+        managerGrid.enable();
     }
 
-    $("#addBtn, #saveBtn ").on('click', function () {
-        $('#addProjectForm').submit();
-    });
-
-    $('#modifyBtn').on('click', function () {
-        setViewForm(false);
-    });
-
     $("#cancelBtn").on('click', function () {
-        setViewForm(true);
+        location.href = "<c:url value='/manageBizProject' />";
     });
 
-    $("#deleteBtn").on('click', function (){
+    $("#saveBtn").on('click', function () {
+
+        var userData = managerGrid.getData().map(function(row) { return row.userId });
 
         $.ajax({
-            url: "<c:url value='/deleteProject' />",
-            type : "DELETE",
-            data: { projectCode : project.projectCode },
+            url: "<c:url value='/detailBizProject' />",
+            type : "POST",
+            data: {
+                projectCode : project.projectCode,
+                userList : userData
+            },
             success: function (data) {
-                location.href = "<c:url value='/manageProject' />";
+                location.href = "<c:url value='/manageBizProject' />";
             }
         });
-
     });
-
 </script>
 

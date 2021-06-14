@@ -20,4 +20,8 @@ public class ProjectStateService {
     public List<ProjectState> getStateList() throws Exception {
         return stateRepository.findAll(Sort.by(Sort.Direction.ASC, "stateName"));
     }
+
+    public ProjectState getProjectState(String stateCode) throws Exception {
+        return stateRepository.findByStateCode(stateCode);
+    }
 }

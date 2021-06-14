@@ -89,7 +89,7 @@
     </form>
 
     <div style="float: right; margin-bottom: 20px">
-        <a href="detailActivity" id="addBtn" class="btn btn-dark">추가</a>
+        <a href="detailActivity?userId=${sessionScope.userId}" id="addBtn" class="btn btn-dark">추가</a>
     </div>
     <div id="activityGrid"></div>
 </div>
@@ -143,7 +143,7 @@
 
     activityGrid.on('click', ev => {
         var activity = activityGrid.getRow(ev.rowKey);
-        location.href = "<c:url value='/detailActivity' />?activityCode=" + activity.activityCode;
+        location.href = "<c:url value='/detailActivity' />?userId=${sessionScope.userId}&activityCode=" + activity.activityCode;
     });
 
     $("#searchAreaBtn").on('click', function() {

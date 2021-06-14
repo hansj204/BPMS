@@ -11,7 +11,6 @@ import java.util.Map;
 
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, String> {
-
     Employee findByUserIdAndPassword(String userId, String password);
     Employee findByUserId(String userId);
     int countEmployeeBy();

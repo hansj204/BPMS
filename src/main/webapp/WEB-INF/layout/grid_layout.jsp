@@ -13,6 +13,10 @@
 <head>
     <jsp:include page="layout_head.jsp"></jsp:include>
 </head>
+<style>
+    @import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
+    body, .tui-grid-container { font-family: "Nanum Gothic"; }
+</style>
 <body>
 
 <jsp:include page="layout_body.jsp">

@@ -8,4 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProjetStateRepository extends JpaRepository<ProjectState, String> {
+
+    ProjectState findByStateCode(String stateCode);
+
 }

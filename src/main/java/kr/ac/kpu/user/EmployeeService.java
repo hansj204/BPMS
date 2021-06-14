@@ -16,8 +16,15 @@ public class EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    @Autowired
+    private ProjectUserRepository psUserRepository;
+
     public List<Employee> getUserList() throws Exception {
         return employeeRepository.findAll();
+    }
+
+    public List<Employee> getProjectUserList(String projectCode) throws Exception {
+        return psUserRepository.findByProjectUser(projectCode);
     }
 
     public Employee getUser(String  userId) throws Exception {
@@ -25,18 +32,14 @@ public class EmployeeService {
     }
 
     public Employee loginUser(String userId, String password) throws Exception {
-        return employeeRepository.findByUserId(userId);
+        return employeeRepository.findByUserIdAndPassword(userId, password);
     }
 
     public void editUser(Employee employee) throws Exception {
 
-        System.out.println(employee.getUserId());
-
-        if(null == employee.getUserId()) {
-            employee.setUserId("2168" + String.format("%02d", getEmployeeCnt()));
+        if(null == employee.getUserId() || employee.getUserId().isEmpty()) {
+            employee.setUserId("2168" + String.format("%02d", getEmployeeCnt() + 1));
             employee.setEnteredDate(new Date());
-
-            System.out.println(employee.getUserId());
         }
 
         employeeRepository.save(employee);
@@ -47,6 +50,7 @@ public class EmployeeService {
     }
 
     public void deleteUser(String userId) throws Exception {
+        psUserRepository.deleteAllByProjectUser_UserId(userId);
         employeeRepository.deleteById(userId);
     }
 }

@@ -16,7 +16,7 @@
 <div class="d-flex" id="wrapper">
 
     <div class="bg-light border-right" id="sidebar-wrapper">
-        <div class="sidebar-heading">아</div>
+        <div class="sidebar-heading">사업 프로젝트 관리</div>
         <div class="list-group list-group-flush">
         <c:if test="${sessionScope.userAuthCode eq 'ALL' or sessionScope.userAuthCode eq 'HR'}">
             <a href="manageUser" class="list-group-item list-group-item-action bg-light">사용자 관리</a>
@@ -24,7 +24,7 @@
         <c:if test="${sessionScope.userAuthCode eq 'ALL' or sessionScope.userAuthCode eq 'BT'}">
             <a href="manageCustomer" class="list-group-item list-group-item-action bg-light">고객 관리</a>
         </c:if>
-        <c:if test="${sessionScope.userAuthCode ne 'HR' and sessionScope.userAuthCode ne 'BE'}">
+        <c:if test="${sessionScope.userAuthCode eq 'ALL' or sessionScope.userAuthCode eq 'BT' or sessionScope.userAuthCode eq 'PM'}">
             <a href="manageProject" class="list-group-item list-group-item-action bg-light">사업프로젝트 관리</a>
         </c:if>
         <c:if test="${sessionScope.userAuthCode eq 'ALL' or sessionScope.userAuthCode eq 'PM'}">

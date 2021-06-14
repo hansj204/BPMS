@@ -72,10 +72,6 @@
         </table>
     </form>
 
-    <div style="float: right; margin-bottom: 10px">
-        <a href="detailBizProject" id="addBtn" class="btn btn-dark">추가</a>
-    </div>
-
     <div id="projectGrid"/>
 </div>
 

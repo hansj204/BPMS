@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import kr.ac.kpu.activity.ActivityService;
 import kr.ac.kpu.entity.BusinessProject;
 import kr.ac.kpu.customer.CustomerService;
+import kr.ac.kpu.entity.Employee;
 import kr.ac.kpu.entity.ProjectSearchVM;
 import kr.ac.kpu.user.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,11 +74,19 @@ public class ProjectController {
 
     @GetMapping("/detailBizProject")
     public String viewBizProject(@RequestParam(required = false) String projectCode, Model model) throws Exception {
-        model.addAttribute("userList", new Gson().toJson(employeeService.getUserList()));
+        model.addAttribute("allUserList", new Gson().toJson(employeeService.getUserList()));
+        model.addAttribute("userList", new Gson().toJson(employeeService.getProjectUserList(projectCode)));
+        model.addAttribute("stateList", stateService.getStateList());
         model.addAttribute("project", (null != projectCode)? new Gson().toJson(projectService.getProject(projectCode)) : "[]");
         model.addAttribute("pageLink", "/detail/detailProjectEmp.jsp");
         model.addAttribute("haveObj", (null != projectCode)? true : false);
         return "/layout/grid_layout";
+    }
+
+    @PostMapping("/detailBizProject")
+    public String editBizProject(@RequestParam String projectCode, @RequestParam(value = "userList[]", required = false) List<String> userList) throws Exception {
+        projectService.editBizProject(projectCode, userList);
+        return "redirect:/manageBizProject";
     }
 
     @PostMapping("/detailProject")

@@ -34,11 +34,10 @@ public class ActivityService {
 
     public void editActivity(Activity activity) throws Exception {
 
-        if(null == activity.getActivityCode()) {
+        if(null == activity.getActivityCode() || activity.getActivityCode().isEmpty()) {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYMMmmss");
             activity.setActivityCode("ACT" + simpleDateFormat.format(new Date()));
 
-            activity.setRegistrar("admin");
             activity.setRegisteredDate(new Date());
         }
 

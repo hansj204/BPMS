@@ -69,12 +69,16 @@
         customerGrid.refreshLayout();
     });
 
-    $("#customerSearch").on('click', ev => {
+    $("#customerModal").on('hidden.bs.modal', function(e) {
+        customerGrid.destroy();
+        $("#customerGrid").empty();
+    });
 
+    $("#customerSearch").on('click', ev => {
         var row = customerGrid.getCheckedRows()[0];
         $("#customerInput").val(row.customerName);
         $("#customer").val(row.customerId);
-        customerGrid.destroy();
+
         $("#customerModal").modal("hide");
     });
 </script>

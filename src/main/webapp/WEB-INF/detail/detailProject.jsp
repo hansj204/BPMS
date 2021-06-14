@@ -88,7 +88,7 @@
             </td>
             <td><label>등록자</label></td>
             <td>
-                <input class="form-control" id="registrar" name="registrar" type="text" readonly>
+                <input class="form-control" id="registrar" name="registrar" type="text" readonly value="${sessionStorage.getItem("userName")}">
             </td>
         </tr>
         <tr>
@@ -115,8 +115,6 @@
 </div>
 <script>
 
-    console.log(${haveObj} + '1');
-
     $("#startDate").datepicker({dateFormat: 'yy-mm-dd'});
     $("#endDate").datepicker({dateFormat: 'yy-mm-dd'});
 
@@ -142,7 +140,7 @@
     function setViewForm(mode) {
         if(mode) {
             $("#modifyBtn").show();
-            $("#deleteBtn").show();;
+            $("#deleteBtn").show();
             $("#saveBtn").hide();
             $("#cancelBtn").hide();
             $(".searchBtn").hide();
@@ -165,6 +163,10 @@
     }
 
     $("#addBtn, #saveBtn ").on('click', function () {
+        $('#addProjectForm').submit();
+    });
+
+    $("#saveBtn ").on('click', function () {
         $('#addProjectForm').submit();
     });
 

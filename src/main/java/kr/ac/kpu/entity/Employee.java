@@ -28,7 +28,7 @@ public class Employee {
     @Column(name = "PASSWORD")
     private String password;
 
-    @Column(name = "ENTEREDDATE")
+    @Column(name = "ENTEREDDATE", updatable = false)
     private Date enteredDate;
 
     @Column(name = "EMAIL")

@@ -14,12 +14,11 @@
     <table class="table table-bordered table-form" style="margin-top: 20px; margin-bottom: 20px">
         <colgroup>
             <col width="10%" style="background: #f5f5f5; border-bottom: 1px solid #dddddd; border-top: 1px solid #dddddd">
-            <col width="20%">
+            <col width="25%">
             <col width="10%" style="background: #f5f5f5; border-bottom: 1px solid #dddddd; border-top: 1px solid #dddddd">
             <col width="20%">
             <col width="10%" style="background: #f5f5f5; border-bottom: 1px solid #dddddd; border-top: 1px solid #dddddd">
             <col width="25%">
-            <col width="5%">
         </colgroup>
         <tr>
             <td><label>고객ID<br>(사업자등록번호)</label></td>
@@ -51,7 +50,7 @@
     </c:if>
     <c:if test="${haveObj eq true}">
         <a href="javascript:void(0);" id="modifyBtn" class="btn btn-dark">수정</a>
-        <a href="javascript:void(0);" id="deleteBtn" class="btn btn-dark">삭제</a>
+<%--        <a href="javascript:void(0);" id="deleteBtn" class="btn btn-dark">삭제</a>--%>
         <a href="javascript:void(0);" id="cancelBtn" class="btn btn-dark">취소</a>
         <a href="javascript:void(0);" id="saveBtn" class="btn btn-dark">저장</a>
     </c:if>
@@ -86,8 +85,14 @@
     })
 
     $("#deleteBtn").on('click', function (){
-        location.href = "<c:url value='/deleteCustomer' />?customerId=" + customer.customerId;
-
+        $.ajax({
+            url: "<c:url value='/deleteCustomer' />",
+            type : "DELETE",
+            data: { customerId : customer.customerId },
+            success: function (data) {
+                location.href = "<c:url value='/manageCustomer' />";
+            }
+        });
     });
 
     function setViewForm(mode) {
@@ -98,7 +103,8 @@
             $("#cancelBtn").hide();
             $(".searchBtn").hide();
 
-            $("input").attr("disabled", true);
+            $("input").not('#customerId').attr("disabled", true);
+            $("#customerId").attr("readonly", true);
             $("textarea").attr("disabled", true);
             $("select").attr("disabled", true);
 

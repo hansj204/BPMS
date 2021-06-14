@@ -72,11 +72,15 @@
         projectGrid.refreshLayout();
     });
 
+    $("#projectModal").on('hidden.bs.modal', function(e) {
+        projectGrid.destroy();
+        $("#projectGrid").empty();
+    });
+
     $("#projectSearch").on('click', ev => {
         var row = projectGrid.getCheckedRows()[0];
         $("#projectInput").val(row.projectName);
         $("#project").val(row.projectCode);
-        projectGrid.destroy();
         $("#projectModal").modal("hide");
     });
 </script>

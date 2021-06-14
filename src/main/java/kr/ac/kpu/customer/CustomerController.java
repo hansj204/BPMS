@@ -5,6 +5,7 @@ import kr.ac.kpu.entity.BusinessCustomer;
 import kr.ac.kpu.entity.BusinessProject;
 import kr.ac.kpu.entity.CustomerSearchVM;
 import kr.ac.kpu.entity.ProjectSearchVM;
+import kr.ac.kpu.project.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +18,9 @@ public class CustomerController {
 
     @Autowired
     CustomerService customerService;
+
+    @Autowired
+    ProjectService projectService;
 
     @GetMapping("/manageCustomer")
     public String getActivityList(Model model) throws Exception {
@@ -34,7 +38,7 @@ public class CustomerController {
 
     @GetMapping("/detailCustomer")
     public String addProject(@RequestParam(required = false) String customerId, Model model) throws Exception {
-        model.addAttribute("customerList", new Gson().toJson(customerService.getCustomerList()));
+        model.addAttribute("customerList", new Gson().toJson(customerService.getCustomerYList()));
         model.addAttribute("pageLink", "/detail/detailCustomer.jsp");
         model.addAttribute("customer", (null != customerId)? new Gson().toJson(customerService.getCustomer(customerId)) : "[]");
         model.addAttribute("haveObj", (null != customerId)? true : false);
@@ -47,12 +51,4 @@ public class CustomerController {
         customerService.editCustomer(businessCustomer);
         return "redirect:/manageCustomer";
     }
-
-    @DeleteMapping("/deleteCustomer")
-    @ResponseBody
-    public String deleteProject(@ModelAttribute("customerId") String customerId) throws Exception {
-        customerService.deleteCustomer(customerId);
-        return "redirect:/manageCustomer";
-    }
-
 }

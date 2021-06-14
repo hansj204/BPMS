@@ -68,11 +68,11 @@
                 name: 'address'
             },
             {
-                header: '담당자',
+                header: 'CEO',
                 name: 'manager'
             },
             {
-                header: '담당자 전화번호',
+                header: 'CEO 전화번호',
                 name: 'managerNumber'
             },
             {

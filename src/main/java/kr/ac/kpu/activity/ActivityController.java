@@ -44,8 +44,8 @@ public class ActivityController {
     }
 
     @GetMapping("/detailActivity")
-    public String addProject(@RequestParam(required = false) String activityCode, Model model) throws Exception {
-        model.addAttribute("projectList", new Gson().toJson(projectService.getProjectList()));
+    public String addProject(@RequestParam String userId, @RequestParam(required = false) String activityCode, Model model) throws Exception {
+        model.addAttribute("projectList", new Gson().toJson(projectService.getUserProjectList(userId)));
         model.addAttribute("jobStepList", jobStepService.getJobStepList());
         model.addAttribute("pageLink", "/detail/detailActivity.jsp");
         model.addAttribute("activity", (null != activityCode)? new Gson().toJson(activityService.getActivity(activityCode)) : "[]");

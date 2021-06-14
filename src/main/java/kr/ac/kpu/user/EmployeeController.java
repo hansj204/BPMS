@@ -52,20 +52,23 @@ public class EmployeeController {
 
         if(employeeInfo != null) {
             HttpSession session = request.getSession();
+            session.setAttribute("userId", employeeInfo.getUserId());
             session.setAttribute("userName", employeeInfo.getUserName());
             session.setAttribute("userAuthCode", employeeInfo.getAuthority().getAuthCode());
             session.setAttribute("userAuthName", employeeInfo.getAuthority().getAuthName());
 
             switch (employeeInfo.getAuthority().getAuthCode()) {
-                case "ALL": url = "manageUser"; break;
+                case "ALL":
                 case "HR" : url = "manageUser"; break;
-                case "BT" : url = "manageCutomer"; break;
+                case "BT" : url = "manageCustomer"; break;
                 case "PM" : url = "manageProject"; break;
                 case "PE" : url = "manageActivity"; break;
             }
+        }else{
+            model.addAttribute("errorMsg", "아이디나 비밀번호가 맞지 않습니다.");
         }
 
-        return (employeeInfo == null)? "redirect:/login" : "redirect:/"+url;
+        return (employeeInfo == null)? "/login" : "redirect:/"+url;
     }
 
     @GetMapping("/logout")

@@ -56,7 +56,7 @@
             <td><input class="form-control" id="workingTime" name="workingTime" type="text" placeholder=""></td>
             <td><label>작성자</label></td>
             <td>
-                <input class="form-control" id="registrar" name="registrar" type="text" disabled value="admin">
+                <input class="form-control" id="registrar" name="registrar" type="text" readonly value="${sessionScope.userName}">
             </td>
         </tr>
         <tr>
@@ -100,8 +100,6 @@
 
     function setViewForm(mode) {
 
-        console.log(mode)
-
         if(mode) {
             $("#modifyBtn").show();
             $("#deleteBtn").show();;
@@ -121,7 +119,6 @@
             $(".searchBtn").show();
 
             $("input").not('#projectInput, #registrar').attr("disabled", false);
-            $("input").not('#registrar').attr("disabled", false);
             $("textarea").attr("disabled", false);
             $("select").attr("disabled", false);
         }

@@ -18,11 +18,7 @@
 <link rel="stylesheet" type="text/css" href="css/jquery-ui.min.css">
 <link rel="stylesheet" type="text/css" href="css/tui-grid.min.css">
 <link rel="stylesheet" type="text/css" href="css/layoutSidebar.css">
-
-<style>
-    @import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
-    body, .tui-grid-container { font-family: "Nanum Gothic"; }
-</style>
+<link rel="stylesheet" type="text/css" href="css/common.css">
 
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/jquery-ui.min.js"></script>

@@ -92,6 +92,11 @@
         userGrid.refreshLayout();
     });
 
+    $("#userModal").on('hidden.bs.modal', function(e) {
+        userGrid.destroy();
+        $("#userGrid").empty();
+    });
+
     $("#userSearch").on('click', ev => {
         userGrid.destroy();
         var row = userGrid.getCheckedRows()[0];

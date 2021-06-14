@@ -68,10 +68,6 @@
                     }
                 }
             },
-            {
-                header: '등록일',
-                name: 'enteredDate'
-            },
         ]
     });
 
