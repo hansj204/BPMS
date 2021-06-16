@@ -10,7 +10,7 @@
 
 <div id="projectArea">
 
-    <div style="float: right; margin-bottom: 10px">
+    <div style="float: right; margin-bottom: 10px; margin-top: 10px;">
         <a href="detailUser" id="addBtn" class="btn btn-dark">추가</a>
     </div>
 

@@ -15,7 +15,7 @@
     </jsp:include>
 </c:if>
 
-<h4 style="margin-top: 20px;">프로젝트</h4>
+<h4 style="margin-top: 20px;">프로젝트 담당자</h4>
 
 
 <table class="table table-bordered table-form" style="margin: 0 20px 20px 0">
@@ -93,8 +93,8 @@
 </table>
 
 <div style="float: right">
-        <a href="javascript:void(0);" id="cancelBtn" class="btn btn-dark">닫기</a>
-        <a href="javascript:void(0);" id="saveBtn" class="btn btn-dark">저장</a>
+<%--    <a href="javascript:void(0);" id="cancelBtn" class="btn btn-dark">닫기</a>--%>
+    <a href="javascript:void(0);" id="saveBtn" class="btn btn-dark">저장</a>
 </div>
 <script>
 

@@ -66,21 +66,23 @@
 
     </table>
 </form>
-<div style="float: right;">
+<div id="editBtns" style="float: right;">
     <c:if test="${haveObj ne true}">
         <a href="javascript:void(0);" id="addBtn" class="btn btn-dark">추가</a>
     </c:if>
     <c:if test="${haveObj eq true}">
-        <a href="javascript:void(0);" id="modifyBtn" class="btn btn-dark">수정</a>
-        <a href="javascript:void(0);" id="deleteBtn" class="btn btn-dark">삭제</a>
-        <a href="javascript:void(0);" id="cancelBtn" class="btn btn-dark">취소</a>
-        <a href="javascript:void(0);" id="saveBtn" class="btn btn-dark">저장</a>
+        <a href="javascript:void(0);" id="modifyBtn" class="btn btn-dark" style="display: none">수정</a>
+        <a href="javascript:void(0);" id="deleteBtn" class="btn btn-dark" style="display: none">삭제</a>
+        <a href="javascript:void(0);" id="cancelBtn" class="btn btn-dark" style="display: none">취소</a>
+        <a href="javascript:void(0);" id="saveBtn" class="btn btn-dark" style="display: none">저장</a>
     </c:if>
 </div>
 <script>
     $("#workDate").datepicker({dateFormat : 'yy-mm-dd'});
 
     var activity = ${activity};
+
+    console.log(activity);
 
     if(Object.keys(activity).length > 0) {
 
@@ -99,6 +101,14 @@
     }
 
     function setViewForm(mode) {
+
+        var currentName = '<%=session.getAttribute("userName")%>';
+        console.log(currentName)
+
+        if(currentName != activity.registrar) {
+            $('#editBtns').hide();
+            mode = true;
+        }
 
         if(mode) {
             $("#modifyBtn").show();

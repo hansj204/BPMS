@@ -89,6 +89,7 @@
     </form>
 
     <div style="float: right; margin-bottom: 20px">
+        <a href="#" id="resetBtn" class="btn btn-light">초기화</a>
         <a href="detailActivity?userId=${sessionScope.userId}" id="addBtn" class="btn btn-dark">추가</a>
     </div>
     <div id="activityGrid"></div>
@@ -113,7 +114,7 @@
             },
             {
                 header: '작업일',
-                name: 'workDate'
+                name: 'workDate',
             },
             {
                 header: '작업시간',
@@ -144,6 +145,11 @@
     activityGrid.on('click', ev => {
         var activity = activityGrid.getRow(ev.rowKey);
         location.href = "<c:url value='/detailActivity' />?userId=${sessionScope.userId}&activityCode=" + activity.activityCode;
+    });
+
+    $("#resetBtn").on('click', function() {
+        $("input").val("");
+        $("select").val("");
     });
 
     $("#searchAreaBtn").on('click', function() {

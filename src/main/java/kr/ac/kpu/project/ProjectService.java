@@ -61,6 +61,10 @@ public class ProjectService {
             businessProject.setRegisteredDate(new Date());
         }
 
+        if(businessProject.getUseYN().equals("N")) {
+            projectUserRepository.deleteAllByProjectUser_ProejctCode(businessProject.getProjectCode());
+        }
+
         businessProject.setModifier("admin");
         businessProject.setModifedDate(new Date());
 

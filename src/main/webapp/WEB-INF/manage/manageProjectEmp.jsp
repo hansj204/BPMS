@@ -72,6 +72,10 @@
         </table>
     </form>
 
+    <div style="float: right; margin-bottom: 10px">
+        <a href="#" id="resetBtn" class="btn btn-light">초기화</a>
+    </div>
+
     <div id="projectGrid"/>
 </div>
 
@@ -127,14 +131,21 @@
         ]
     });
 
-    console.log(${projectList});
+    var project = ${projectList};
 
-    grid.resetData(${projectList});
+    project = project.filter(function(row){ return row.useYN == "Y" });
+
+    grid.resetData(project);
     grid.refreshLayout();
 
     grid.on('click', ev => {
         var project = grid.getRow(ev.rowKey);
         location.href = "<c:url value='/detailBizProject' />?projectCode=" + project.projectCode;
+    });
+
+    $("#resetBtn").on('click', function() {
+        $("input").val("");
+        $("select").val("");
     });
 
     $("#searchAreaBtn").on('click', function() {

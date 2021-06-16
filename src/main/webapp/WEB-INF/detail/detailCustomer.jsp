@@ -29,9 +29,9 @@
             <td><input class="form-control" id="address" name="address" type="text" placeholder=""></td>
         </tr>
         <tr>
-            <td><label>담당자</label></td>
+            <td><label>CEO</label></td>
             <td><input class="form-control" id="manager" name="manager" type="text" placeholder=""></td>
-            <td><label>담당자 전화번호</label></td>
+            <td><label>CEO 전화번호</label></td>
             <td><input class="form-control" id="managerNumber" name="managerNumber" type="text" placeholder=""></td>
             <td><label>사용여부</label></td>
             <td>

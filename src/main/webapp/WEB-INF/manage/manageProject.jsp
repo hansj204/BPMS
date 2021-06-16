@@ -73,6 +73,7 @@
     </form>
 
     <div style="float: right; margin-bottom: 10px">
+        <a href="#" id="resetBtn" class="btn btn-light">초기화</a>
         <a href="detailProject" id="addBtn" class="btn btn-dark">추가</a>
     </div>
 
@@ -131,14 +132,17 @@
         ]
     });
 
-    console.log(${projectList});
-
     grid.resetData(${projectList});
     grid.refreshLayout();
 
     grid.on('click', ev => {
         var project = grid.getRow(ev.rowKey);
         location.href = "<c:url value='/detailProject' />?projectCode=" + project.projectCode;
+    });
+
+    $("#resetBtn").on('click', function() {
+        $("input").val("");
+        $("select").val("");
     });
 
     $("#searchAreaBtn").on('click', function() {

@@ -11,48 +11,73 @@
 <head>
     <title>Title</title>
 </head>
-<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-<script type="text/javascript" src="js/jquery.min.js"></script>
-<script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
+<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
+<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+<link rel="stylesheet" type="text/css" href="css/util.css">
+<link rel="stylesheet" type="text/css" href="css/main.css">
 <style>
     .container { width: 100%; }
 
-    @import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
-    body, .tui-grid-container { font-family: "Nanum Gothic"; }
+   /* @import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
+    body, .tui-grid-container { font-family: "Nanum Gothic"; }*/
 </style>
 <body>
-<script>
-    $("input").attr('autocomplete', 'off');
-</script>
-<!-- This snippet uses Font Awesome 5 Free as a dependency. You can download it at fontawesome.io! -->
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100">
+            <form class="login100-form validate-form" action="<c:url value="/login"/>" method="post" autocomplete="off">
+					<span class="login100-form-title p-b-26">
+						Welcome
+					</span>
+                <span class="login100-form-title p-b-48">
+						<i class="zmdi zmdi-view-subtitles" style="font-size: 120px"></i>
+					</span>
 
-<body>
-<div class="container">
-    <div class="row">
-        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-            <div class="card card-signin my-5">
-                <div class="card-body">
-                    <h5 class="card-title text-center">Sign In</h5>
-                    <form action="<c:url value="/login"/>" method="post" class="form-signin">
-                        <div class="form-label-group">
-                            <label for="inputUserId">Id</label>
-                            <input type="text" id="inputUserId" name="userId" class="form-control" placeholder="ID" required autofocus>
-                        </div>
-                        <div class="form-label-group">
-                            <label for="inputPassword">Password</label>
-                            <input type="password" id="inputPassword" name="password" class="form-control" placeholder="비밀번호" required>
-                        </div>
-
-                        <div style="margin-top: 5px; margin-bottom: 5px;">
-                            <span style="color: red">${errorMsg}</span>
-                        </div>
-                        <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">로그인</button>
-                    </form>
+                <div class="wrap-input100 validate-input" data-validate = "Enter Id">
+                    <input class="input100" type="text" name="userId">
+                    <span class="focus-input100" data-placeholder="ID"></span>
                 </div>
-            </div>
+
+                <div class="wrap-input100 validate-input" data-validate="Enter password">
+						<span class="btn-show-pass">
+							<i class="zmdi zmdi-eye"></i>
+						</span>
+                    <input class="input100" type="password" name="password">
+                    <span class="focus-input100" data-placeholder="PASSWORD"></span>
+                </div>
+                <div style="margin-top: 5px; margin-bottom: 5px;">
+                    <span style="color: red">${errorMsg}</span>
+                </div>
+                <div class="container-login100-form-btn">
+                    <div class="wrap-login100-form-btn">
+                        <div class="login100-form-bgbtn" style="background: gray"></div>
+                        <button class="login100-form-btn">
+                            Login
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
-</body>
+
+
+<div id="dropDownSelect1"></div>
+
+<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<script src="vendor/animsition/js/animsition.min.js"></script>
+<script src="vendor/bootstrap/js/popper.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="vendor/select2/select2.min.js"></script>
+<script src="vendor/daterangepicker/moment.min.js"></script>
+<script src="vendor/daterangepicker/daterangepicker.js"></script>
+<script src="vendor/countdowntime/countdowntime.js"></script>
+<script src="js/main.js"></script>
 </body>
 </html>

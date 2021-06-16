@@ -39,7 +39,9 @@ public class EmployeeService {
 
         if(null == employee.getUserId() || employee.getUserId().isEmpty()) {
             employee.setUserId("2168" + String.format("%02d", getEmployeeCnt() + 1));
-            employee.setEnteredDate(new Date());
+
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YY-MM-dd");
+            employee.setEnteredDate(simpleDateFormat.format(new Date()));
         }
 
         employeeRepository.save(employee);

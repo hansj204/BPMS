@@ -88,7 +88,7 @@
             </td>
             <td><label>등록자</label></td>
             <td>
-                <input class="form-control" id="registrar" name="registrar" type="text" readonly value="${sessionStorage.getItem("userName")}">
+                <input class="form-control" id="registrar" name="registrar" type="text" readonly value="${sessionScope.userName}">
             </td>
         </tr>
         <tr>
@@ -119,6 +119,8 @@
     $("#endDate").datepicker({dateFormat: 'yy-mm-dd'});
 
     var project = ${project};
+
+    console.log(project);
 
     if(Object.keys(project).length > 0) {
 

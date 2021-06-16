@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -44,12 +45,13 @@ public class ActivityController {
     }
 
     @GetMapping("/detailActivity")
-    public String addProject(@RequestParam String userId, @RequestParam(required = false) String activityCode, Model model) throws Exception {
+    public String addProject(@RequestParam String userId, @RequestParam(required = false) String activityCode, Model model, HttpServletRequest request) throws Exception {
         model.addAttribute("projectList", new Gson().toJson(projectService.getUserProjectList(userId)));
         model.addAttribute("jobStepList", jobStepService.getJobStepList());
         model.addAttribute("pageLink", "/detail/detailActivity.jsp");
         model.addAttribute("activity", (null != activityCode)? new Gson().toJson(activityService.getActivity(activityCode)) : "[]");
         model.addAttribute("haveObj", (null != activityCode)? true : false);
+
 
         return "/layout/grid_layout";
     }

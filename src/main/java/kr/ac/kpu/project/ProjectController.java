@@ -7,6 +7,7 @@ import kr.ac.kpu.customer.CustomerService;
 import kr.ac.kpu.entity.Employee;
 import kr.ac.kpu.entity.ProjectSearchVM;
 import kr.ac.kpu.user.EmployeeService;
+import kr.ac.kpu.user.ProjectUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +32,9 @@ public class ProjectController {
 
     @Autowired
     EmployeeService employeeService;
+
+    @Autowired
+    ProjectUserRepository projectUserRepository;
 
     @GetMapping("/manageProject")
     public String getProjectList(Model model) throws Exception {
@@ -99,6 +103,7 @@ public class ProjectController {
     @ResponseBody
     public void deleteProject(@RequestParam("projectCode") String projectCode, Model model) throws Exception {
         activityService.deleteAllActivity(projectService.getProject(projectCode));
+        projectUserRepository.deleteAllByProjectUser_ProejctCode(projectCode);
         projectService.deleteProject(projectCode);
     }
 }
