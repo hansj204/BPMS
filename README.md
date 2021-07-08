@@ -1,5 +1,6 @@
 # BPMS
 BPMS(Business Project Management System)는 고객과 계약한 사업 프로젝트를 관리하는 시스템입니다.
+> BPMS SQL문 파일 - [script.sql](https://github.com/hansj204/BPMS/files/6782924/script.txt)
 
 ![슬라이드3](https://user-images.githubusercontent.com/42490329/122145317-0043fc00-ce90-11eb-85b9-d7d520165cc5.JPG)
 ![슬라이드4](https://user-images.githubusercontent.com/42490329/122145318-00dc9280-ce90-11eb-98a9-29d076abb45b.JPG)
