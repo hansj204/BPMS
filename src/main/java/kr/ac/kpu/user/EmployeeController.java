@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.cassandra.CassandraProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -75,7 +76,7 @@ public class EmployeeController {
     public String logout(HttpServletRequest request, Model model) throws Exception {
         HttpSession session = request.getSession();
         session.invalidate();
-        return "redirect:/login";
+        return "/login";
     }
 
     @GetMapping("/manageUser")
@@ -101,7 +102,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/detailUser")
-    public String editUser(@ModelAttribute Employee employee) throws Exception {
+    public String editUser(@ModelAttribute Employee employee, BindingResult bindingResult) throws Exception {
         employeeService.editUser(employee);
         return "redirect:/manageUser";
     }

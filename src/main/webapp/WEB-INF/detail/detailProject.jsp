@@ -28,9 +28,9 @@
         <tr>
             <input type="hidden" class="form-control" id="projectCode" name="projectCode" >
                 <input type="hidden" tex>
-            <td><label>프로젝트명</label></td>
+            <td><label>프로젝트명</label><i class="fa fa-certificate" aria-hidden="true" style="color: red; font-size: 10px; margin-left: 10px"></i></td>
             <td><input class="form-control" id="projectName" name="projectName" type="text"></td>
-            <td><label>프로젝트 기간</label></td>
+            <td><label>프로젝트 기간</label><i class="fa fa-certificate" aria-hidden="true" style="color: red; font-size: 10px; margin-left: 10px"></i></td>
             <td>
                 <div class="row">
                     <div class="col">
@@ -42,7 +42,7 @@
                     </div>
                 </div>
             </td>
-            <td><label>프로젝트 상태</label></td>
+            <td><label>프로젝트 상태</label><i class="fa fa-certificate" aria-hidden="true" style="color: red; font-size: 10px; margin-left: 10px"></i></td>
             <td>
                 <select id="projectState" name="projectState" class="form-control">
                     <c:forEach items="${stateList}" var="stateList">
@@ -52,11 +52,11 @@
             </td>
         </tr>
         <tr>
-            <td><label for="manager">담당자</label></td>
+            <td><label for="manager">담당자</label><i class="fa fa-certificate" aria-hidden="true" style="color: red; font-size: 10px; margin-left: 10px"></i></td>
             <td><input class="form-control" id="manager" name="manager" type="text" placeholder=""></td>
-            <td><label>총 사업예산</label></td>
+            <td><label>총 사업예산</label><i class="fa fa-certificate" aria-hidden="true" style="color: red; font-size: 10px; margin-left: 10px"></i></td>
             <td><input class="form-control" id="totalBudget" name="totalBudget" type="number"></td>
-            <td><label>화폐단위</label></td>
+            <td><label>화폐단위</label><i class="fa fa-certificate" aria-hidden="true" style="color: red; font-size: 10px; margin-left: 10px"></i></td>
             <td>
                 <select id="budgetUnit" name="budgetUnit" class="form-control">
                     <option value="W">원</option>
@@ -67,7 +67,7 @@
             </td>
         </tr>
         <tr>
-            <td><label>고객</label></td>
+            <td><label>고객</label><i class="fa fa-certificate" aria-hidden="true" style="color: red; font-size: 10px; margin-left: 10px"></i></td>
             <td>
                 <div class="input-group mb-3">
                     <input type="text" class="form-control" id="customerInput" name="customerInput" disabled>
@@ -79,7 +79,7 @@
                     </div>
                 </div>
             </td>
-            <td><label>진행여부</label></td>
+            <td><label>진행여부</label><i class="fa fa-certificate" aria-hidden="true" style=""></i></td>
             <td>
                 <select id="useYN" name="useYN" class="form-control">
                     <option selected>Y</option>
@@ -108,7 +108,6 @@
     </c:if>
     <c:if test="${haveObj eq true}">
         <a href="javascript:void(0);" id="modifyBtn" class="btn btn-dark">수정</a>
-        <a href="javascript:void(0);" id="deleteBtn"  class="btn btn-dark">삭제</a>
         <a href="javascript:void(0);" id="cancelBtn" class="btn btn-dark">취소</a>
         <a href="javascript:void(0);" id="saveBtn" class="btn btn-dark">저장</a>
     </c:if>
@@ -119,8 +118,6 @@
     $("#endDate").datepicker({dateFormat: 'yy-mm-dd'});
 
     var project = ${project};
-
-    console.log(project);
 
     if(Object.keys(project).length > 0) {
 
@@ -164,11 +161,20 @@
         }
     }
 
-    $("#addBtn, #saveBtn ").on('click', function () {
-        $('#addProjectForm').submit();
-    });
+    $("#addBtn, #saveBtn").on('click', function () {
 
-    $("#saveBtn ").on('click', function () {
+        var formData = new FormData($("#addProjectForm")[0]);
+
+        for (var key of formData.keys()) {
+
+            if(key == 'projectContents' || key == 'projectCode' || key == 'registrar') continue;
+
+            if(formData.get(key).length < 1) {
+                alert("필수 항목은 비워둘 수 없습니다.");
+                return false;
+            }
+        }
+
         $('#addProjectForm').submit();
     });
 

@@ -18,6 +18,6 @@ public class ProjectUserPK implements Serializable {
     @Column(name = "PROJECTCODE")
     private String proejctCode;
 
-    @Column(name = "USERSID")
+    @Column(name = "USERID")
     private String userId;
 }

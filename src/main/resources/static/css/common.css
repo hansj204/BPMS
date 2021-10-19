@@ -1,3 +1,9 @@
 .ui-datepicker-div{
     z-index: 1000;
 }
+
+.fa-certificate {
+    color: red;
+    font-size: 10px;
+    margin-left: 10px;
+}

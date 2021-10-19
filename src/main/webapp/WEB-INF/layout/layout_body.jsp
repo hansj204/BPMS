@@ -9,10 +9,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%
-    String authCode = (String) session.getAttribute("userAuthCode");
-%>
-
 <div class="d-flex" id="wrapper">
 
     <div class="bg-light border-right" id="sidebar-wrapper">
@@ -56,7 +52,7 @@
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="#">${sessionScope.userAuthName}</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="logout">로그아웃</a>
+                            <a id="logoutBtn" class="dropdown-item">로그아웃</a>
                         </div>
                     </li>
                 </ul>
@@ -74,6 +70,13 @@
 
     $("input").attr('autocomplete', 'off');
 
+    localStorage.setItem('authCode', "<%=session.getAttribute("userAuthCode")%>");
+
+    if(localStorage.getItem('authCode') == 'null' || localStorage.getItem('authCode') == 'undefined') {
+        console.log(localStorage.getItem('authCode'))
+        location.href = "<c:url value='/logout' />";
+    }
+
     tui.Grid.applyTheme('clean') ;
     tui.Grid.setLanguage('ko') ;
 
@@ -82,6 +85,46 @@
         $("#wrapper").toggleClass("toggled");
         $("body").find("tui-grid-container").refreshLayout();
     });
+
+    $("#logoutBtn").click(function () {
+        localStorage.removeItem('authCode');
+        location.href = "<c:url value='/logout' />";
+    })
+
+    function isEmail(value) {
+        var regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+        return regExp.test(value);
+    }
+
+    function checkCompanyNumber(value) {
+        var valueMap = value.replace(/-/gi, '').split('').map(function(item) {
+            return parseInt(item, 10);
+        });
+
+        if (valueMap.length === 10) {
+            var multiply = new Array(1, 3, 7, 1, 3, 7, 1, 3, 5);
+            var checkSum = 0;
+
+            for (var i = 0; i < multiply.length; ++i) {
+                checkSum += multiply[i] * valueMap[i];
+            }
+
+            checkSum += parseInt((multiply[8] * valueMap[8]) / 10, 10);
+            return Math.floor(valueMap[9]) === (10 - (checkSum % 10));
+        }
+
+        return false;
+    }
+
+    function checkPhoneNumber(value) {
+        var regExp = /^\d{3,4}-\d{4}$/;
+        return regExp.test(value);
+    }
+
+    function checkPassWord(value) {
+        var reg = /^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+        return reg.test(value)
+    }
 
 
 </script>

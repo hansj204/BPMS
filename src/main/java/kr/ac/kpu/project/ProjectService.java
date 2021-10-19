@@ -53,16 +53,17 @@ public class ProjectService {
 
     public void editProject(BusinessProject businessProject) throws Exception {
 
+
+
         if(null == businessProject.getProjectCode() || businessProject.getProjectCode().isEmpty()) {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYMMmmss");
 
             businessProject.setProjectCode("PJ" + simpleDateFormat.format(new Date()));
             businessProject.setRegistrar("admin");
             businessProject.setRegisteredDate(new Date());
-        }
 
-        if(businessProject.getUseYN().equals("N")) {
-            projectUserRepository.deleteAllByProjectUser_ProejctCode(businessProject.getProjectCode());
+            System.out.println(1111111111);
+            System.out.println(businessProject.getRegisteredDate());
         }
 
         businessProject.setModifier("admin");

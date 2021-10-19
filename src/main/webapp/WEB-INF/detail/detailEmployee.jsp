@@ -21,11 +21,11 @@
             <col width="25%">
         </colgroup>
         <tr>
-            <td><label>사번</label></td>
+            <td><label>사번</label><i class="fa fa-certificate" aria-hidden="true"></i></td>
             <td><input class="form-control" id="userId" name="userId" type="text" readonly></td>
-            <td><label>이름</label></td>
+            <td><label>이름</label><i class="fa fa-certificate" aria-hidden="true"></i></td>
             <td><input class="form-control" id="userName" name="userName" type="text"></td>
-            <td><label>비밀번호</label></td>
+            <td><label>비밀번호</label><i class="fa fa-certificate" aria-hidden="true"></i></td>
             <td>
                 <div class="input-group mb-3">
                     <input class="form-control" id="password" name="password" type="password">
@@ -34,9 +34,9 @@
             </td>
         </tr>
         <tr>
-            <td><label>이메일</label></td>
+            <td><label>이메일</label><i class="fa fa-certificate" aria-hidden="true"></i></td>
             <td><input class="form-control" id="email" name="email" type="text"></td>
-            <td><label>부서</label></td>
+            <td><label>부서</label><i class="fa fa-certificate" aria-hidden="true"></i></td>
             <td>
                 <select id="department" name="department" class="form-control">
                     <c:forEach items="${departmentList}" var="departmentList">
@@ -44,7 +44,7 @@
                     </c:forEach>
                 </select>
             </td>
-            <td><label>직급</label></td>
+            <td><label>직급</label><i class="fa fa-certificate" aria-hidden="true"></i></td>
             <td>
                 <select id="position" name="position" class="form-control">
                     <c:forEach items="${positionList}" var="positionList">
@@ -54,7 +54,7 @@
             </td>
         </tr>
         <tr>
-            <td><label>권한</label></td>
+            <td><label>권한</label><i class="fa fa-certificate" aria-hidden="true"></i></td>
             <td>
                 <select id="authority" name="authority" class="form-control">
                     <c:forEach items="${authList}" var="authList">
@@ -84,6 +84,8 @@
 
     var user = ${user};
 
+    var hiddenPassword = '';
+
     if(Object.keys(user).length > 0) {
 
         setViewForm(true);
@@ -97,15 +99,42 @@
                 case 'authority' : $(name).val(user[key].authCode); break;
                 case 'department' : $(name).val(user[key].departmentCode); break;
                 case 'position' : $(name).val(user[key].positionCode); break;
+                case 'password' : $(name).val(''); hiddenPassword = user[key]; break;
                 default: $(name).val(user[key]);
             }
         });
+
+        console.log(hiddenPassword);
     }
 
     $("#addBtn, #saveBtn ").on('click', function () {
+
+        var formData = new FormData($("#editEmployeeForm")[0]);
+
+        for (var key of formData.keys()) {
+
+            if(key == 'userId') continue;
+
+            console.log(isEmail(formData.get('password')))
+
+            if(formData.get(key).length < 1) {
+                alert("필수 항목은 비워둘 수 없습니다.");
+                return false;
+            } else if (formData.get('email').length > 1 && !isEmail(formData.get('email'))) {
+                alert("올바른 이메일 주소를 입력하세요.")
+                return false;
+            } else if (formData.get('password').length > 1 && !checkPassWord(formData.get('password'))) {
+                alert('비밀번호는 8자 이상이어야 하며, 숫자/소문자/특수문자를 모두 포함해야 합니다.');
+                return false;
+            }
+        }
+
+        if($("#password").val().length < 1) {
+            $("#password").val(hiddenPassword);
+        }
+
         $("#editEmployeeForm").submit();
     });
-
 
     $('#modifyBtn').on('click', function () {
         setViewForm(false);

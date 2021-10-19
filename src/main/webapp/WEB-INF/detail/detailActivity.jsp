@@ -26,9 +26,9 @@
         </colgroup>
         <tr>
             <input type="hidden" class="form-control" id="activityCode" name="activityCode" >
-            <td><label>작업명</label></td>
+            <td><label>작업명</label><i class="fa fa-certificate" aria-hidden="true"></i></td>
             <td><input class="form-control" id="activityName" name="activityName" type="text"></td>
-            <td><label for="jobStep">작업단계</label></td>
+            <td><label for="jobStep">작업단계</label><i class="fa fa-certificate" aria-hidden="true"></i></td>
             <td>
                 <select id="jobStep" name="jobStep" class="form-control">
                     <c:forEach items="${jobStepList}" var="jobStepList">
@@ -36,7 +36,7 @@
                     </c:forEach>
                 </select>
             </td>
-            <td><label>프로젝트</label></td>
+            <td><label>프로젝트</label><i class="fa fa-certificate" aria-hidden="true"></i></td>
             <td>
                 <div class="input-group mb-3">
                     <input type="text" class="form-control" id="projectInput" name="projectInput" disabled>
@@ -50,9 +50,9 @@
             </td>
         </tr>
         <tr>
-            <td><label>작업일</label></td>
+            <td><label>작업일</label><i class="fa fa-certificate" aria-hidden="true"></i></td>
             <td><input class="form-control" id="workDate" name="workDate" type="text" placeholder=""></td>
-            <td><label>작업시간</label></td>
+            <td><label>작업시간</label><i class="fa fa-certificate" aria-hidden="true"></i></td>
             <td><input class="form-control" id="workingTime" name="workingTime" type="text" placeholder=""></td>
             <td><label>작성자</label></td>
             <td>
@@ -82,7 +82,7 @@
 
     var activity = ${activity};
 
-    console.log(activity);
+    (activity);
 
     if(Object.keys(activity).length > 0) {
 
@@ -103,7 +103,6 @@
     function setViewForm(mode) {
 
         var currentName = '<%=session.getAttribute("userName")%>';
-        console.log(currentName)
 
         if(currentName != activity.registrar) {
             $('#editBtns').hide();
@@ -135,6 +134,19 @@
     }
 
     $("#addBtn, #saveBtn ").on('click', function () {
+
+        var formData = new FormData($("#addActivityForm")[0]);
+
+        for (var key of formData.keys()) {
+
+            if(key == 'activityCode' || key == 'activityContents' || key == 'registrar') continue;
+
+            if(formData.get(key).length < 1) {
+                alert("필수 항목은 비워둘 수 없습니다.");
+                return false;
+            }
+        }
+
         $('#addActivityForm').submit();
     });
 

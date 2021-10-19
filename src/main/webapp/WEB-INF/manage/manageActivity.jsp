@@ -124,7 +124,6 @@
                 header: '작업단계',
                 name: 'jobStep',
                 formatter: function (value) {
-                    console.log(value);
                     return value.value.stepName;
                 }
             },
@@ -132,15 +131,14 @@
                 header: '프로젝트',
                 name: 'project',
                 formatter: function (value) {
-                    console.log(value);
                     return value.value.projectName;
                 }
             }
         ]
     });
 
-    activityGrid.resetData(${activityList});
-    activityGrid.refreshLayout();
+    <%--activityGrid.resetData(${activityList});--%>
+    <%--activityGrid.refreshLayout();--%>
 
     activityGrid.on('click', ev => {
         var activity = activityGrid.getRow(ev.rowKey);
@@ -166,7 +164,6 @@
             data: searchCondition,
             type: "GET",
             success: function (data) {
-                console.log(data)
                 activityGrid.resetData(data);
                 activityGrid.refreshLayout();
             }

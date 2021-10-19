@@ -206,8 +206,6 @@
         keys.forEach(function(key) {
             var name = "[name=" + key +"]";
 
-            console.log(project[key])
-
             switch (key) {
                 case 'projectState' : $(name).val(project[key].stateCode); break;
                 case 'customer' :     $("#customerInput").val(project[key].customerName); $(name).val(project[key].customerId); break;

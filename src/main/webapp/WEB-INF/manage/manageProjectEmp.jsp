@@ -133,6 +133,8 @@
 
     var project = ${projectList};
 
+    console.log(project);
+
     project = project.filter(function(row){ return row.useYN == "Y" });
 
     grid.resetData(project);

@@ -21,17 +21,17 @@
             <col width="25%">
         </colgroup>
         <tr>
-            <td><label>고객ID<br>(사업자등록번호)</label></td>
+            <td><label>고객ID<br>(사업자등록번호)</label><i class="fa fa-certificate" aria-hidden="true"></i></td>
             <td><input class="form-control" id="customerId" name="customerId" type="text"></td>
-            <td><label>고객명</label></td>
+            <td><label>고객명</label><i class="fa fa-certificate" aria-hidden="true"></i></td>
             <td><input class="form-control" id="customerName" name="customerName" type="text"></td>
-            <td><label>주소</label></td>
+            <td><label>주소</label><i class="fa fa-certificate" aria-hidden="true"></i></td>
             <td><input class="form-control" id="address" name="address" type="text" placeholder=""></td>
         </tr>
         <tr>
-            <td><label>CEO</label></td>
+            <td><label>담당자</label><i class="fa fa-certificate" aria-hidden="true"></i></td>
             <td><input class="form-control" id="manager" name="manager" type="text" placeholder=""></td>
-            <td><label>CEO 전화번호</label></td>
+            <td><label>담당자 전화번호</label></td>
             <td><input class="form-control" id="managerNumber" name="managerNumber" type="text" placeholder=""></td>
             <td><label>사용여부</label></td>
             <td>
@@ -81,6 +81,25 @@
     });
 
     $("#addBtn, #saveBtn ").on('click', function () {
+
+        var formData = new FormData($("#editCustomerForm")[0]);
+
+        for (var key of formData.keys()) {
+
+            if(key == 'managerNumber') continue;
+
+            if(formData.get(key).length < 1) {
+                alert("필수 항목은 비워둘 수 없습니다.");
+                return false;
+            } else if(formData.get('customerId').length > 1 && !checkCompanyNumber(formData.get('customerId'))) {
+                alert("올바른 사업자 등록번호를 입력하세요.")
+                return false;
+            } else if(formData.get('managerNumber').length > 1 && !checkPhoneNumber(formData.get('managerNumber'))) {
+                alert("올바른 담당자 전화번호를 입력하세요.")
+                return false;
+            }
+        }
+
         $("#editCustomerForm").submit();
     })
 
@@ -103,8 +122,8 @@
             $("#cancelBtn").hide();
             $(".searchBtn").hide();
 
-            $("input").not('#customerId').attr("disabled", true);
-            $("#customerId").attr("readonly", true);
+            $("input").attr("disabled", true);
+            //$("#customerId").attr("readonly", true);
             $("textarea").attr("disabled", true);
             $("select").attr("disabled", true);
 
@@ -115,7 +134,7 @@
             $("#cancelBtn").show();
             $(".searchBtn").show();
 
-            $("input").not('#customerId').attr("disabled", false);
+            $("input").attr("disabled", false);
             $("textarea").attr("disabled", false);
             $("select").attr("disabled", false);
         }

@@ -28,10 +28,26 @@
     body, .tui-grid-container { font-family: "Nanum Gothic"; }*/
 </style>
 <body>
+
+<script>
+    var authCode = localStorage.getItem('authCode');
+
+    if(authCode) {
+
+        switch (authCode) {
+            case "ALL":
+            case "HR" : location.href = "<c:url value='/manageUser' />"; break;
+            case "BT" : location.href = "<c:url value='/manageCustomer' />";break;
+            case "PM" : location.href = "<c:url value='/manageProject' />"; break;
+            case "PE" : location.href = "<c:url value='/manageActivity' />"; break;
+        }
+    }
+</script>
+
 <div class="limiter">
     <div class="container-login100">
         <div class="wrap-login100">
-            <form class="login100-form validate-form" action="<c:url value="/login"/>" method="post" autocomplete="off">
+            <form id="loginForm" class="login100-form validate-form" action="<c:url value="/login"/>" method="post" onsubmit="return false;">
 					<span class="login100-form-title p-b-26">
 						Welcome
 					</span>
@@ -52,12 +68,14 @@
                     <span class="focus-input100" data-placeholder="PASSWORD"></span>
                 </div>
                 <div style="margin-top: 5px; margin-bottom: 5px;">
+                    <input type="checkbox" name="ckSaveUserId" ${checked}> 아이디 저장 </label>
+                    <br>
                     <span style="color: red">${errorMsg}</span>
                 </div>
                 <div class="container-login100-form-btn">
                     <div class="wrap-login100-form-btn">
                         <div class="login100-form-bgbtn" style="background: gray"></div>
-                        <button class="login100-form-btn">
+                        <button id="loginBtn" class="login100-form-btn">
                             Login
                         </button>
                     </div>
@@ -79,5 +97,36 @@
 <script src="vendor/daterangepicker/daterangepicker.js"></script>
 <script src="vendor/countdowntime/countdowntime.js"></script>
 <script src="js/main.js"></script>
+<script>
+
+    $(document).ready(function() {
+
+        $("input").attr('autocomplete', 'off');
+
+        $("[name=userId]").focus();
+
+        if('checked' == localStorage.getItem('ckSaveUserId')) {
+            $("[name=ckSaveUserId]").prop('checked', true);
+            $("[name=userId]").val(localStorage.getItem('saveUserId'));
+        }
+    });
+
+    $("#loginBtn").click(function() {
+        login();
+    });
+
+    function login() {
+
+        if($("[name=ckSaveUserId]").is(":checked")){
+            localStorage.setItem('ckSaveUserId', 'checked');
+            localStorage.setItem('saveUserId', $.trim($("[name=userId]").val()));
+        }else{
+            localStorage.removeItem('ckSaveUserId');
+            localStorage.removeItem('saveUserId');
+        }
+
+        $('#loginForm')[0].submit();
+    }
+</script>
 </body>
 </html>

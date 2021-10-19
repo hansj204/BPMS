@@ -44,14 +44,15 @@ public class CustomerService {
 
     public void editCustomer(BusinessCustomer businessCustomer) throws Exception {
 
-        if(businessCustomer.getUseYN().equals("N")) {
-            BusinessProject businessProject = projectService.getProjectCustomer(businessCustomer.getCustomerId());
+        BusinessProject businessProject = projectService.getProjectCustomer(businessCustomer.getCustomerId());
 
+        if(businessCustomer.getUseYN().equals("N")) {
             if(businessProject != null) {
-                businessProject.setProjectState(projectService.getState("CD"));
                 businessProject.setUseYN("N");
-                projectRepository.save(businessProject);
-                projectUserRepository.deleteAllByProjectUser_ProejctCode(businessProject.getProjectCode());
+            }
+        }else {
+            if(businessProject != null) {
+                businessProject.setUseYN("Y");
             }
         }
 
